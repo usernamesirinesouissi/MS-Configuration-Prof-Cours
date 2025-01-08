@@ -1,0 +1,24 @@
+eureka:
+  instance:
+    preferIpAddress : true
+  client:
+    registerWithEureka: true
+    fetchRegistry : true
+    serviceUrl:
+      defaultZone: http://localhost:8060/eureka
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: GestionProfesseur
+        uri: lb://GestionProfesseur
+        predicates:
+          - Path=/professeur/**
+        filters:
+          - RewritePath=/utilisateur/(?<path>.*), /$\{path}
+        - id: GestionCours
+        uri: lb://GestionCours
+        predicates:
+          - Path= /projet/**
+        filters:
+          - RewritePath=/projet/(?<path>.*), /$\{path}
